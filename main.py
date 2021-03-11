@@ -1,16 +1,37 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+from selenium import webdriver
+from time import sleep
+import os
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+def login(driver) :
+    driver.get("https://www.instagram.com")
+    sleep(4)
+    driver.find_element_by_xpath('//*[@id="uc-btn-accept-banner"]').click()
+    driver.find_element_by_xpath("//input[@name=\"username\"]").clear()
+    driver.find_element_by_xpath("//input[@name=\"username\"]") \
+        .send_keys(os.environ.get("instaUsername"))
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    driver.find_element_by_xpath("//input[@name=\"password\"]").clear()
+    driver.find_element_by_xpath("//input[@name=\"password\"]") \
+        .send_keys(os.environ.get("instaPassword"))
+    driver.find_element_by_xpath("//button[@type=\"submit\"]") \
+        .click()
+    sleep(4)
+
+
+def click_button(driver,buttonname):
+    button=driver.find_element_by_partial_link_text(buttonname)
+    button.click()
+    sleep(4)
+
+
+def __main__():
+    driver = webdriver.Chrome("D:\ChromDriver\chromedriver.exe")
+    login(driver)
+    driver.get("https://www.instagram.com/abboud.zaher/")
+    following=click_button(driver,"following")
+
+
+
+
+__main__()
